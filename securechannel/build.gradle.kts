@@ -6,7 +6,17 @@ plugins {
     id ("kotlin-kapt")
     id ("com.google.dagger.hilt.android")
     id ("kotlinx-serialization")
+    id ("maven-publish")
 }
+
+val githubProperties = Properties()
+githubProperties.load(project.rootProject.file("github.properties").inputStream())
+val mGroupId = "io.myabcwallet"
+val mArtifactId = "secure-channel"
+val mVersionCode = 1
+val mVersionName = "0.1.0"
+val libraryName = "SecureChannel"
+val libraryDescription = "Library for Android to create a Secure Channel to communicate with WAAS"
 
 val properties: Properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
@@ -67,4 +77,47 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+}
+
+tasks.register<Jar>("androidSourcesJar") {
+    archiveClassifier.set("sources")
+    from("$buildDir/outputs/aar/$mArtifactId.aar")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = mGroupId
+                artifactId = mArtifactId
+                version = mVersionName
+
+                from(components["release"])
+
+                artifact(tasks["androidSourcesJar"])
+
+                pom {
+                    name.set(libraryName)
+                    description.set(libraryDescription)
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GithubPackages"
+                url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
+                credentials {
+                    username = githubProperties["gpr.usr"]?.let { it.toString() }
+                        ?: run { System.getenv("GPR_USER") }
+                    password = githubProperties["gpr.key"]?.let { it.toString() }
+                        ?: run { System.getenv("GPR_API_KEY") }
+                }
+            }
+        }
+    }
+}
+
+tasks.named("publish") {
+    dependsOn("assemble")
 }
