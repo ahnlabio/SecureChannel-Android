@@ -48,12 +48,23 @@ class RetrofitAuthNetwork @Inject constructor(
         .build()
         .create(AuthApi::class.java)
 
+    private val devAuthApi = Retrofit.Builder()
+        .baseUrl(DEV_AUTH_BASE_URL)
+        .callFactory(okhttpCallFactory)
+        .addConverterFactory(
+            networkJson.asConverterFactory("application/json".toMediaType())
+        )
+        .build()
+        .create(AuthApi::class.java)
+
     override suspend fun createSecureChannel(
         publicKey: String,
-        plainText: String
+        plainText: String,
+        isDev: Boolean,
     ): SecureChannelResponse =
-        authApi.createSecureChannel(
-            publicKey = publicKey,
-            plainText = plainText,
-        )
+        (if (isDev) devAuthApi else authApi)
+            .createSecureChannel(
+                publicKey = publicKey,
+                plainText = plainText,
+            )
 }

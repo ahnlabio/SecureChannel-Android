@@ -12,5 +12,6 @@ interface AuthRepository {
     fun createSecureChannel(
         publicKey: String,
         plainText: String,
+        isDev: Boolean = false,
     ): Flow<SecureChannelResponse>
 }
