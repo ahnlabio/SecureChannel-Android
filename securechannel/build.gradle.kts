@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("com.google.dagger.hilt.android")
-    id ("kotlinx-serialization")
-    id ("maven-publish")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("kotlinx-serialization")
+    id("maven-publish")
 }
 
 val mGroupId = "io.myabcwallet"
@@ -79,53 +79,48 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 }
 
-tasks.register<Jar>("androidSourcesJar") {
-    from(android.sourceSets.getByName("main").java.srcDirs)
-    archiveClassifier.set("sources")
-}
+publishing {
+    publications {
+        register<MavenPublication>("gpr") {
+            groupId = mGroupId
+            artifactId = mArtifactId
+            version = mVersionName
+            afterEvaluate { 
+                from(components["java"])
+            }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("gpr") {
-                groupId = mGroupId
-                artifactId = mArtifactId
-                version = mVersionName
-                artifact("$buildDir/outputs/aar/${libraryName}.aar")
-                artifact(tasks["androidSourcesJar"])
+            pom {
+                withXml {
+                    // add dependencies to pom
+                    val dependencies = asNode().appendNode("dependencies")
+                    configurations.implementation.get().dependencies.forEach {
+                        if (it.group != null &&
+                            "unspecified" != it.name &&
+                            it.version != null
+                        ) {
 
-                pom {
-                    withXml {
-                        // add dependencies to pom
-                        val dependencies = asNode().appendNode("dependencies")
-                        configurations.implementation.get().dependencies.forEach {
-                            if (it.group != null &&
-                                "unspecified" != it.name &&
-                                it.version != null) {
-
-                                val dependencyNode = dependencies.appendNode("dependency")
-                                dependencyNode.appendNode("groupId", it.group)
-                                dependencyNode.appendNode("artifactId", it.name)
-                                dependencyNode.appendNode("version", it.version)
-                            }
+                            val dependencyNode = dependencies.appendNode("dependency")
+                            dependencyNode.appendNode("groupId", it.group)
+                            dependencyNode.appendNode("artifactId", it.name)
+                            dependencyNode.appendNode("version", it.version)
                         }
                     }
                 }
             }
         }
+    }
 
-        repositories {
-            maven {
-                name = "GithubPackages"
-                url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
-                credentials {
-                    username = System.getenv("GPR_USER")
-                    password = System.getenv("GPR_API_KEY")
-                }
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
+            credentials {
+                username = System.getenv("GPR_USER")
+                password = System.getenv("GPR_API_KEY")
             }
         }
     }
