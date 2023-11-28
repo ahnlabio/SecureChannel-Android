@@ -13,7 +13,7 @@ val mGroupId = "io.myabcwallet"
 val mArtifactId = "securechannel"
 val mVersionCode = 1
 val mVersionName = "0.1.0"
-val libraryName = "SecureChannel"
+val libraryName = "SecureChannel-Android"
 val libraryDescription = "Library for Android to create a Secure Channel to communicate with WAAS"
 
 val properties: Properties = Properties()
