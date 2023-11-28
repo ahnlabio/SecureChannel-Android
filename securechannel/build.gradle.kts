@@ -17,7 +17,7 @@ val libraryName = "SecureChannel"
 val libraryDescription = "Library for Android to create a Secure Channel to communicate with WAAS"
 
 val properties: Properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
+properties.load(project.rootProject.file("gradle.properties").inputStream())
 val serverAuthUrl: String = properties.getProperty("server.auth.url")
 val devServerAuthUrl: String = properties.getProperty("dev.server.auth.url")
 val authAccessKey: String = properties.getProperty("auth.access.key")
