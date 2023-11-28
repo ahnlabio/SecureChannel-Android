@@ -10,7 +10,7 @@ plugins {
 }
 
 val mGroupId = "io.myabcwallet"
-val mArtifactId = "secure-channel"
+val mArtifactId = "securechannel"
 val mVersionCode = 1
 val mVersionName = "0.1.0"
 val libraryName = "SecureChannel"
