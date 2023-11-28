@@ -60,6 +60,7 @@ android {
     publishing {
         singleVariant("release") {
             withSourcesJar()
+            withJavadocJar()
         }
     }
 }
@@ -82,21 +83,15 @@ dependencies {
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 }
 
-tasks.register<Jar>("androidSourcesJar") {
-    archiveClassifier.set("sources")
-    from(android.sourceSets.getByName("main").java.srcDirs)
-}
-
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("maven") {
+            create<MavenPublication>("release") {
                 groupId = mGroupId
                 artifactId = mArtifactId
                 version = mVersionName
 
                 from(components["release"])
-                artifact(tasks["androidSourcesJar"])
 
                 pom {
                     name.set(libraryName)
