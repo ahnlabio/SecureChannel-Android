@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("com.google.dagger.hilt.android")
-    id ("kotlinx-serialization")
-    id ("maven-publish")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("kotlinx-serialization")
+    id("maven-publish")
 }
 
 val mGroupId = "io.myabcwallet"
@@ -73,37 +73,37 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                groupId = mGroupId
-                artifactId = mArtifactId
-                version = mVersionName
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = mGroupId
+            artifactId = mArtifactId
+            version = mVersionName
 
+            afterEvaluate {
                 from(components["release"])
+            }
 
-                artifact("$buildDir/outputs/aar/$mArtifactId.aar")
+            artifact("$buildDir/outputs/aar/$mArtifactId.aar")
 
-                pom {
-                    name.set(libraryName)
-                    description.set(libraryDescription)
-                }
+            pom {
+                name.set(libraryName)
+                description.set(libraryDescription)
             }
         }
+    }
 
-        repositories {
-            maven {
-                name = "GithubPackages"
-                url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
-                credentials {
-                    username = System.getenv("GPR_USER")
-                    password = System.getenv("GPR_API_KEY")
-                }
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
+            credentials {
+                username = System.getenv("GPR_USER")
+                password = System.getenv("GPR_API_KEY")
             }
         }
     }
