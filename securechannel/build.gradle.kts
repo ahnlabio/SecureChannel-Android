@@ -77,11 +77,6 @@ dependencies {
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 }
 
-tasks.register<Jar>("androidSourcesJar") {
-    archiveClassifier.set("sources")
-    from("$buildDir/outputs/aar/$mArtifactId.aar")
-}
-
 afterEvaluate {
     publishing {
         publications {
@@ -92,7 +87,7 @@ afterEvaluate {
 
                 from(components["release"])
 
-                artifact(tasks["androidSourcesJar"])
+                artifact("$buildDir/outputs/aar/$mArtifactId.aar")
 
                 pom {
                     name.set(libraryName)
