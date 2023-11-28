@@ -91,7 +91,7 @@ tasks.register<Jar>("androidSourcesJar") {
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("release") {
+            create<MavenPublication>("deploy") {
                 groupId = mGroupId
                 artifactId = mArtifactId
                 version = mVersionName
