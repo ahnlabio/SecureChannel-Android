@@ -33,10 +33,10 @@ jobs:
       - name: Set Gradle Properties
         run: |
           perl -pi -e 's|local.properties|gradle.properties|g' securechannel/build.gradle.kts
-          sed -i 's/SERVER_AUTH_URL/${{secrets.SERVER_AUTH_URL}}/g' gradle.properties
-          sed -i 's/DEV_SERVER_AUTH_URL/${{secrets.DEV_SERVER_AUTH_URL}}/g' gradle.properties
-          sed -i 's/AUTH_ACCESS_KEY/${{secrets.AUTH_ACCESS_KEY}}/g' gradle.properties
-          sed -i 's/AUTH_ACCESS_SECRET/${{secrets.AUTH_ACCESS_SECRET}}/g' gradle.properties
+          perl -pi -e 's/SERVER_AUTH_URL/${{secrets.SERVER_AUTH_URL}}/g' gradle.properties
+          perl -pi -e 's/DEV_SERVER_AUTH_URL/${{secrets.DEV_SERVER_AUTH_URL}}/g' gradle.properties
+          perl -pi -e 's/AUTH_ACCESS_KEY/${{secrets.AUTH_ACCESS_KEY}}/g' gradle.properties
+          perl -pi -e 's/AUTH_ACCESS_SECRET/${{secrets.AUTH_ACCESS_SECRET}}/g' gradle.properties
 
       - name: Build AAR ⚙️🛠
         run: bash ./gradlew :secure-channel:assemble
