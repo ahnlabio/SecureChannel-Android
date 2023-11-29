@@ -24,24 +24,17 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesNetworkJson(): Json = Json {
+    fun providesNetworkJsonForSecureChannel(): Json = Json {
         ignoreUnknownKeys = true
     }
 
     @Provides
     @Singleton
-    fun okHttpCallFactoryForAuth(): Call.Factory = OkHttpClient.Builder()
+    fun okHttpCallFactoryForSecureChannel(): Call.Factory = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val original = chain.request()
-            val auth = Credentials.basic(
-                username = BuildConfig.AUTH_ACCESS_KEY,
-                password = BuildConfig.AUTH_ACCESS_SECRET,
-                charset = StandardCharsets.UTF_8,
-            )
             val request = original.newBuilder()
                 .addHeader("Content-Type", "x-www-form-urlencoded")
-                .addHeader("User-Agent", "ANDROID")
-                .addHeader("Authorization", auth)
                 .method(original.method, original.body)
                 .build()
 

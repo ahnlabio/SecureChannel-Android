@@ -53,20 +53,6 @@ jobs:
           replace: ${{secrets.DEV_SERVER_AUTH_URL}}
           include: "gradle.properties"
 
-      - name: Set Gradle Properties 4
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "AUTH_ACCESS_KEY"
-          replace: ${{secrets.AUTH_ACCESS_KEY}}
-          include: "gradle.properties"
-
-      - name: Set Gradle Properties 5
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "AUTH_ACCESS_SECRET"
-          replace: ${{secrets.AUTH_ACCESS_SECRET}}
-          include: "gradle.properties"
-
       - name: Build AAR ⚙️🛠
         run: bash ./gradlew :securechannel:assemble
 
