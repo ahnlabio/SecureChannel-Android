@@ -9,6 +9,8 @@ plugins {
     id("maven-publish")
 }
 
+val githubProperties = Properties()
+githubProperties.load(project.rootProject.file("github.properties").inputStream())
 val mGroupId = "io.myabcwallet"
 val mArtifactId = "securechannel"
 val mVersionCode = 1
@@ -57,12 +59,6 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
@@ -83,38 +79,13 @@ dependencies {
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 }
 
-tasks.register<Jar>("androidSourcesJar") {
-    from(android.sourceSets.getByName("main").java.srcDirs)
-    archiveClassifier.set("sources")
-}
-
 publishing {
     publications {
         register<MavenPublication>("gpr") {
             groupId = mGroupId
             artifactId = mArtifactId
             version = mVersionName
-            artifact("$buildDir/outputs/aar/${libraryName}.aar")
-            artifact(tasks["androidSourcesJar"])
-
-            pom {
-                withXml {
-                    // add dependencies to pom
-                    val dependencies = asNode().appendNode("dependencies")
-                    configurations.implementation.get().dependencies.forEach {
-                        if (it.group != null &&
-                            "unspecified" != it.name &&
-                            it.version != null
-                        ) {
-
-                            val dependencyNode = dependencies.appendNode("dependency")
-                            dependencyNode.appendNode("groupId", it.group)
-                            dependencyNode.appendNode("artifactId", it.name)
-                            dependencyNode.appendNode("version", it.version)
-                        }
-                    }
-                }
-            }
+            artifact("$buildDir/outputs/aar/${mArtifactId}-release.aar")
         }
     }
 
