@@ -11,6 +11,7 @@ import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.nio.charset.StandardCharsets
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 /**
@@ -18,19 +19,29 @@ import javax.inject.Singleton
  * @author jin on 11/27/23
  */
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+internal annotation class JsonScope
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+internal annotation class OkHttpScope
+
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
+    @JsonScope
     @Provides
     @Singleton
-    fun providesNetworkJsonForSecureChannel(): Json = Json {
+    fun providesNetworkJson(): Json = Json {
         ignoreUnknownKeys = true
     }
 
+    @OkHttpScope
     @Provides
     @Singleton
-    fun okHttpCallFactoryForSecureChannel(): Call.Factory = OkHttpClient.Builder()
+    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val original = chain.request()
             val request = original.newBuilder()

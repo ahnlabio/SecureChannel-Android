@@ -4,6 +4,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import io.myabcwallet.securechannel.BuildConfig
 import io.myabcwallet.securechannel.model.data.SecureChannelResponse
 import io.myabcwallet.securechannel.network.AuthDataStore
+import io.myabcwallet.securechannel.network.di.JsonScope
+import io.myabcwallet.securechannel.network.di.OkHttpScope
 import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
@@ -32,8 +34,8 @@ private const val AUTH_BASE_URL = BuildConfig.SERVER_AUTH_URL
 private const val DEV_AUTH_BASE_URL = BuildConfig.DEV_SERVER_AUTH_URL
 
 internal class RetrofitAuthNetwork @Inject constructor(
-    networkJson: Json,
-    okhttpCallFactory: Call.Factory,
+    @JsonScope networkJson: Json,
+    @OkHttpScope okhttpCallFactory: Call.Factory,
 ) : AuthDataStore {
 
     private val authApi = Retrofit.Builder()
