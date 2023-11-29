@@ -42,15 +42,15 @@ jobs:
       - name: Set Gradle Properties 2
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "SERVER_AUTH_URL"
-          replace: ${{secrets.SERVER_AUTH_URL}}
+          find: "DEV_SERVER_AUTH_URL"
+          replace: ${{secrets.DEV_SERVER_AUTH_URL}}
           include: "gradle.properties"
 
       - name: Set Gradle Properties 3
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "DEV_SERVER_AUTH_URL"
-          replace: ${{secrets.DEV_SERVER_AUTH_URL}}
+          find: "SERVER_AUTH_URL"
+          replace: ${{secrets.SERVER_AUTH_URL}}
           include: "gradle.properties"
 
       - name: Build AAR ⚙️🛠
