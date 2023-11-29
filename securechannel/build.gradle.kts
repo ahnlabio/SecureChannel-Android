@@ -9,8 +9,6 @@ plugins {
     id("maven-publish")
 }
 
-val githubProperties = Properties()
-githubProperties.load(project.rootProject.file("github.properties").inputStream())
 val mGroupId = "io.myabcwallet"
 val mArtifactId = "securechannel"
 val mVersionCode = 1
@@ -94,13 +92,9 @@ publishing {
             name = "GithubPackages"
             url = uri("https://maven.pkg.github.com/ahnlabio/SecureChannel-Android")
             credentials {
-                username = System.getenv("GPR_USER")
-                password = System.getenv("GPR_API_KEY")
+                username = System.getenv("GPR_USR")
+                password = System.getenv("GPR_KEY")
             }
         }
     }
-}
-
-tasks.named("publish") {
-    dependsOn("assemble")
 }
