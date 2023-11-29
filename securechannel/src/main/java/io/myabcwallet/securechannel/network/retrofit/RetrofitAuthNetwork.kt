@@ -32,10 +32,8 @@ private interface AuthApi {
 private const val AUTH_BASE_URL = BuildConfig.SERVER_AUTH_URL
 private const val DEV_AUTH_BASE_URL = BuildConfig.DEV_SERVER_AUTH_URL
 
-class RetrofitAuthNetwork @Inject constructor(
-    networkJson: Json = Json {
-        ignoreUnknownKeys = true
-    },
+internal class RetrofitAuthNetwork @Inject constructor(
+    networkJson: Json,
     okhttpCallFactory: Call.Factory,
 ) : AuthDataStore {
 

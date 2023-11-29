@@ -15,7 +15,7 @@ import io.myabcwallet.securechannel.repository.DefaultAuthRepository
  */
 @Module
 @InstallIn(SingletonComponent::class)
-interface AuthModule {
+internal interface AuthModule {
 
     @Binds
     fun bindsAuthRepository(

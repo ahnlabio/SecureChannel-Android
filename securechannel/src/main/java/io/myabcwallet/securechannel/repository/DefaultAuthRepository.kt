@@ -12,7 +12,7 @@ import javax.inject.Inject
  *
  * @author jin on 11/23/23
  */
-class DefaultAuthRepository @Inject constructor(
+internal class DefaultAuthRepository @Inject constructor(
     private val authDataStore: AuthDataStore
 ) : AuthRepository {
 
