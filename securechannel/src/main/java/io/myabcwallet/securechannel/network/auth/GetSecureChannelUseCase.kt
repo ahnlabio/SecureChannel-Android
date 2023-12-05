@@ -37,7 +37,7 @@ class GetSecureChannelUseCase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
 
-    operator fun invoke(): Flow<SecureChannelData?> {
+    operator fun invoke(isDev: Boolean = false): Flow<SecureChannelData?> {
         Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
         Security.addProvider(BouncyCastleProvider())
 
@@ -56,7 +56,8 @@ class GetSecureChannelUseCase @Inject constructor(
 
         return authRepository.createSecureChannel(
             publicKey = publicKeyHexString,
-            plainText = plainText
+            plainText = plainText,
+            isDev = isDev,
         ).map { response ->
             // 2. 서버로 부터 받은 공개키 로드
             val publicKeyFromServerHexString = response.publicKey
