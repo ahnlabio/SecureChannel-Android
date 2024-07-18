@@ -11,8 +11,8 @@ plugins {
 
 val mGroupId = "io.myabcwallet"
 val mArtifactId = "securechannel"
-val mVersionCode = 9
-val mVersionName = "0.1.9"
+val mVersionCode = 10
+val mVersionName = "0.1.10"
 val libraryName = "SecureChannel-Android"
 val libraryDescription = "Library for Android to create a Secure Channel to communicate with WAAS"
 
