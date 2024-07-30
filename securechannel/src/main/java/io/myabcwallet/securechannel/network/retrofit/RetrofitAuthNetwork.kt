@@ -31,6 +31,7 @@ private interface AuthApi {
 }
 
 private const val AUTH_BASE_URL = BuildConfig.SERVER_AUTH_URL
+private const val STG_AUTH_BASE_URL = BuildConfig.STG_SERVER_AUTH_URL
 private const val DEV_AUTH_BASE_URL = BuildConfig.DEV_SERVER_AUTH_URL
 
 internal class RetrofitAuthNetwork @Inject constructor(
@@ -40,6 +41,15 @@ internal class RetrofitAuthNetwork @Inject constructor(
 
     private val authApi = Retrofit.Builder()
         .baseUrl(AUTH_BASE_URL)
+        .callFactory(okhttpCallFactory)
+        .addConverterFactory(
+            networkJson.asConverterFactory("application/json".toMediaType())
+        )
+        .build()
+        .create(AuthApi::class.java)
+
+    private val stgAuthApi = Retrofit.Builder()
+        .baseUrl(STG_AUTH_BASE_URL)
         .callFactory(okhttpCallFactory)
         .addConverterFactory(
             networkJson.asConverterFactory("application/json".toMediaType())
@@ -59,9 +69,13 @@ internal class RetrofitAuthNetwork @Inject constructor(
     override suspend fun createSecureChannel(
         publicKey: String,
         plainText: String,
-        isDev: Boolean,
+        environment: String,
     ): SecureChannelResponse =
-        (if (isDev) devAuthApi else authApi)
+        when (environment) {
+            "prod" -> authApi
+            "stg" -> stgAuthApi
+            else -> devAuthApi
+        }
             .createSecureChannel(
                 publicKey = publicKey,
                 plainText = plainText,

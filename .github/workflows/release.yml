@@ -49,6 +49,13 @@ jobs:
       - name: Set Gradle Properties 3
         uses: jacobtomlinson/gha-find-replace@v3
         with:
+          find: "STG_SERVER_AUTH_URL"
+          replace: ${{secrets.STG_SERVER_AUTH_URL}}
+          include: "gradle.properties"
+
+      - name: Set Gradle Properties 4
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
           find: "SERVER_AUTH_URL"
           replace: ${{secrets.SERVER_AUTH_URL}}
           include: "gradle.properties"

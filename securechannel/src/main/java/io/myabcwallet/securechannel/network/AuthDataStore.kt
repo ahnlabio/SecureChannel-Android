@@ -11,6 +11,6 @@ interface AuthDataStore {
     suspend fun createSecureChannel(
         publicKey: String,
         plainText: String,
-        isDev: Boolean = false,
+        environment: String = "prod"
     ) : SecureChannelResponse
 }

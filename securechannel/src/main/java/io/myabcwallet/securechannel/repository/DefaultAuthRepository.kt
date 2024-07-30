@@ -19,13 +19,13 @@ internal class DefaultAuthRepository @Inject constructor(
     override fun createSecureChannel(
         publicKey: String,
         plainText: String,
-        isDev: Boolean,
+        environment: String,
     ): Flow<SecureChannelResponse> = flow {
         emit(
             authDataStore.createSecureChannel(
                 publicKey = publicKey,
                 plainText = plainText,
-                isDev = isDev,
+                environment = environment,
             )
         )
     }.flowOn(Dispatchers.IO)

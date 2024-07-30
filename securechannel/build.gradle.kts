@@ -19,6 +19,7 @@ val libraryDescription = "Library for Android to create a Secure Channel to comm
 val properties: Properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 val serverAuthUrl: String = properties.getProperty("server.auth.url")
+val stgServerAuthUrl: String = properties.getProperty("stg.server.auth.url")
 val devServerAuthUrl: String = properties.getProperty("dev.server.auth.url")
 
 android {
@@ -29,6 +30,7 @@ android {
         minSdk = 29
 
         buildConfigField("String", "SERVER_AUTH_URL", serverAuthUrl)
+        buildConfigField("String", "STG_SERVER_AUTH_URL", stgServerAuthUrl)
         buildConfigField("String", "DEV_SERVER_AUTH_URL", devServerAuthUrl)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
