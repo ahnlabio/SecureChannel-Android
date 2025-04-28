@@ -1,6 +1,5 @@
 package io.myabcwallet.securechannel.network.retrofit
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.myabcwallet.securechannel.BuildConfig
 import io.myabcwallet.securechannel.model.data.SecureChannelResponse
 import io.myabcwallet.securechannel.network.AuthDataStore
@@ -10,6 +9,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

@@ -7,12 +7,13 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlinx-serialization")
     id("maven-publish")
+    id("com.google.devtools.ksp")
 }
 
 val mGroupId = "io.myabcwallet"
 val mArtifactId = "securechannel"
-val mVersionCode = 11
-val mVersionName = "0.1.11"
+val mVersionCode = 12
+val mVersionName = "0.1.12"
 val libraryName = "SecureChannel-Android"
 val libraryDescription = "Library for Android to create a Secure Channel to communicate with WAAS"
 
@@ -24,7 +25,7 @@ val devServerAuthUrl: String = properties.getProperty("dev.server.auth.url")
 
 android {
     namespace = "io.myabcwallet.securechannel"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 29
@@ -59,20 +60,20 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation("com.google.dagger:hilt-android:2.56")
+    ksp("com.google.dagger:hilt-compiler:2.56")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.79")
 }
 
 publishing {
